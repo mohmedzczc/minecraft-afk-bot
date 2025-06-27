@@ -1,29 +1,24 @@
+// afkBot.js
 const mineflayer = require('mineflayer')
 
 function createBot() {
   const bot = mineflayer.createBot({
-    host: 'SurvivorTown.aternos.me',
-      port: 28617,
-    username: 'AFK_BOT_1'
+    host: 'Blacko7.aternos.me', // حط هنا عنوان السيرفر بتاعك
+    port:    64385,
+    username: 'AFK_BOT'
   })
 
   bot.on('spawn', () => {
-    console.log('✅ BOT 1 دخل السيرفر!');
-
-    // يسجل أو يعمل login
-    setTimeout(() => {
-      bot.chat('/login 41284128'); // أو /register لو أول مرة
-    }, 5000); // نستنى 5 ثواني علشان البلجن يشتغل الأول
+    console.log('Bot spawned and is AFK now.')
+    bot.setControlState('jump', true) // يتحرك كل شوية
+    setInterval(() => {
+      bot.chat('/ping') // لو حبيت تبين إنه شغال
+    }, 60000)
   })
 
   bot.on('end', () => {
-    console.log('❌ BOT 1 خرج، بيحاول يرجع...');
-    setTimeout(createBot, 5000)
-  })
-
-  bot.on('error', (err) => {
-    console.log('❌ حصل Error:', err.message);
-    setTimeout(createBot, 10000)
+    console.log('Bot was kicked, reconnecting...')
+    setTimeout(createBot, 5000) // يرجع تاني لو اترفد
   })
 }
 
