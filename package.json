@@ -1,10 +1,10 @@
 {
-  "name": "minecraft-afk-bot",
+  "name": "minecraft-afk-botss",
   "version": "1.0.0",
-  "description": "AFK bot to keep Aternos server alive",
-  "main": "index.js",
+  "description": "Multiple AFK bots for Aternos servers",
+  "main": "bot1.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node bot1.js & node bot2.js"
   },
   "dependencies": {
     "mineflayer": "^4.6.1",
