@@ -1,25 +1,41 @@
-// afkBot.js
-const mineflayer = require('mineflayer')
+const mineflayer = require('mineflayer');
 
 function createBot() {
   const bot = mineflayer.createBot({
-    host: 'Blacko7.aternos.me', // حط هنا عنوان السيرفر بتاعك
-    port:    64385,
-    username: 'AFK_BOT'
-  })
+    host: 'Blacko7.aternos.me', // ✏️ غيّر ده لاسم السيرفر بتاعك
+    port: 64385,
+    username: 'AFK_BOT_1'
+  });
 
   bot.on('spawn', () => {
-    console.log('Bot spawned and is AFK now.')
-    bot.setControlState('jump', true) // يتحرك كل شوية
+    console.log('✅ BOT دخل السيرفر بدون تسجيل!');
+
+    // يتحرك للأمام كل 15 ثانية
     setInterval(() => {
-      bot.chat('/ping') // لو حبيت تبين إنه شغال
-    }, 60000)
-  })
+      bot.setControlState('forward', true);
+      setTimeout(() => {
+        bot.setControlState('forward', false);
+      }, 1000);
+    }, 15000);
+
+    // يقفز كل دقيقة
+    setInterval(() => {
+      bot.setControlState('jump', true);
+      setTimeout(() => {
+        bot.setControlState('jump', false);
+      }, 500);
+    }, 60000);
+  });
 
   bot.on('end', () => {
-    console.log('Bot was kicked, reconnecting...')
-    setTimeout(createBot, 5000) // يرجع تاني لو اترفد
-  })
+    console.log('❌ BOT خرج، بيحاول يرجع...');
+    setTimeout(createBot, 5000);
+  });
+
+  bot.on('error', (err) => {
+    console.log('❌ Error:', err.message);
+    setTimeout(createBot, 10000);
+  });
 }
 
-createBot()
+createBot();
